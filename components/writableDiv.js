@@ -7,10 +7,17 @@ class writableDiv extends baseObj {
         this.clickEvent = (e) => {
             const elem = this.shadow.elementFromPoint(e.x, e.y);
             const elemPath = getPath(elem);
-            const reversedElem = getElemFromPath(elemPath);
+            const reversedElem = getElemFromPath(this.outlineDiv, elemPath);
+            Array.from(this.outlineDiv.querySelectorAll('div')).forEach(f => f.classList.remove('active'));
+            reversedElem != this.outlineDiv ? reversedElem.classList.add('active') : undefined;
+        }
 
-            // console.log(elemPath);
-            console.log(reversedElem);
+        this.menuBtnClick = (className) => (e) => {
+            const elemPath = getPath(this.outlineDiv.querySelector('.active'));
+            const reversedElem = getElemFromPath(this.contentDiv, elemPath);
+            if (reversedElem) {
+                reversedElem.classList.add(className);
+            }
         }
 
         this.initObserver = () => {
@@ -20,29 +27,42 @@ class writableDiv extends baseObj {
 
         this.mutationCallBack = (mutations) => {
             const elemPath = mutations.reduce((t,n) => [].concat.apply(t, Array.from(n.addedNodes)), []).map(m => getPath(m));
-            console.log(elemPath);
+            this.outlineDiv && this.contentDiv ? this.outlineDiv.innerHTML = this.contentDiv.innerHTML : undefined;
         }
 
         const getPath = (me) => {
             const getMyIndex = (me) => Array.from(me.parentElement.childNodes).filter(f => f.nodeName != '#text').findIndex(f => f == me);
             const iter = (me) => {
-                return me != this.contentDiv ? [ getMyIndex(me), ...iter(me.parentElement) ] : [ getMyIndex(me) ];
+                if (me == this.contentDiv || me == this.outlineDiv) { return [ getMyIndex(me) ] }
+                return [ getMyIndex(me), ...iter(me.parentElement) ];
             }
-            return iter(me).reverse();
+            return iter(me).reverse().filter((f, i) => i != 0);
         }
 
-        const getElemFromPath = (path) => {
+        const getElemFromPath = (rootElem, path) => {
             const iter = (p, idx) => Array.from(p.childNodes).filter(f => f.nodeName != '#text')[idx];
 
-            return path.reduce((t, n) => iter(t, n), this.contentDiv?.parentElement);
+            return path.reduce((t, n) => iter(t, n), rootElem);
         }
     }
 
     get contentDiv() { return this.wrapper.querySelector('.wsyiwygContent') }
+    get outlineDiv() { return this.wrapper.querySelector('.wsyiwygOutline') }
 
     componentReady() {
         if (this.contentDiv) {
             this.contentDiv.addEventListener('click', this.clickEvent);
+
+            if (this.outlineDiv) {
+                this.outlineDiv.innerHTML = this.contentDiv.innerHTML;
+
+                Array.from(this.wrapper.querySelectorAll('.wsyiwygToolBtn'))
+                .forEach(f => {
+                    const handler = this.menuBtnClick(f.getAttribute('linked-class'));
+                    f.addEventListener('click', handler);
+                });
+            }
+
             this.initObserver();
         }
     }

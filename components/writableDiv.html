@@ -13,22 +13,65 @@
         border: 1px solid rgba(0, 0, 0, 0.3);
     }
 
-    .wsyiwygOutline {
+    .wsyiwygOutlineArea {
         width: var(--wsyiwg-outline-width);
         height: var(--wsyiwg-outline-height);
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         overflow-y: auto;
         border: 1px solid rgba(0, 0, 0, 0.3);
     }
+
+    .wsyiwygOutline {
+        /* width: var(--wsyiwg-outline-width); */
+        height: calc(var(--wsyiwg-outline-height) - 25px);
+        padding: 0.25rem;
+    }
+
+    .active {
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(135, 135, 135, 1);
+    }
+
+    .wsyiwygToolBar {
+        display: flex;
+        /* width: var(--wsyiwg-outline-width); */
+    }
+
+    .wsyiwygToolBtn {
+        width: 20px; height: 20px;
+        cursor: pointer;
+        border: 1px solid rgba(80, 80, 80, 1);
+    }
+
+    .textBold { font-weight: bold; }
+    .textItalic { font-style: italic; }
+    .textUnderline { text-decoration: underline; }
+    .textNormal { font-weight: normal; font-style: normal; text-decoration: none; }
 </style>
 <div class="wsyiwygContainer">
     <div class="wsyiwygContent" tabindex="1" contenteditable="true">
-        <div><div>abcde</div></div>
-        <div>fghij</div>
-        <div>klmno</div>
-        <div>pqrst</div>
+        <div>
+            <div>This is a nested div</div>
+        </div>
+        <div>
+            <div>This is a div
+                <div>This is a child div</div>
+            </div>
+        </div>
+        <div>This is a single div</div>
+        <div>This is another single div</div>
+        <div>&nbsp;</div>
+        <div>This is yet another single div</div>
     </div>
-    <div class="wsyiwygOutline" tabindex="1">
+    <div class="wsyiwygOutlineArea">
+        <div class="wsyiwygToolBar">
+            <div class="wsyiwygToolBtn" linked-class="textBold"></div>
+            <div class="wsyiwygToolBtn" linked-class="textNormal"></div>
+            <div class="wsyiwygToolBtn" linked-class="textItalic"></div>
+            <div class="wsyiwygToolBtn" linked-class="textUnderline"></div>
+        </div>
+        <div class="wsyiwygOutline" tabindex="1">
 
+        </div>
     </div>
 </div>
