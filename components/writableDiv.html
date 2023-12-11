@@ -1,0 +1,34 @@
+<style>
+    .wsyiwygContainer {
+        width: var(--wsyiwg-container-width);
+        height: var(--wsyiwg-container-height);
+        display: flex;
+        flex-direction: row;
+    }
+
+    .wsyiwygContent {
+        width: var(--wsyiwg-content-width);
+        height: var(--wsyiwg-content-height);
+        overflow-y: auto;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .wsyiwygOutline {
+        width: var(--wsyiwg-outline-width);
+        height: var(--wsyiwg-outline-height);
+        font-size: 0.7rem;
+        overflow-y: auto;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+</style>
+<div class="wsyiwygContainer">
+    <div class="wsyiwygContent" tabindex="1" contenteditable="true">
+        <div><div>abcde</div></div>
+        <div>fghij</div>
+        <div>klmno</div>
+        <div>pqrst</div>
+    </div>
+    <div class="wsyiwygOutline" tabindex="1">
+
+    </div>
+</div>
