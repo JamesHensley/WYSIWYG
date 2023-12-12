@@ -7,6 +7,16 @@ class baseObj extends HTMLElement {
     constructor(props = defaultProps) {
         super();
 
+        // Since the stylesheet link will be appended to the document head, the link
+        //   should be relative to the document root 
+        if (props.docCss) {
+            const sht = document.createElement('link');
+            sht.rel = 'stylesheet';
+            sht.type = 'text/css';
+            sht.href = props.docCss;
+            document.head.appendChild(sht);
+        }
+
         this.wrapper = document.createElement('div');
         props.classNames.forEach(f => f ? this.wrapper.classList.add(f) : undefined);
 

@@ -2,14 +2,28 @@ import baseObj from './baseObj.js';
 
 class writableDiv extends baseObj {
     constructor() {
-        super({ templateUrl: '../components/writableDiv.html', classNames: ['wrapper'], readyCallBack: () => this.componentReady() });
+        super({
+            templateUrl: '../components/writableDiv.html',
+            docCss: './components/writableDiv.css',
+            classNames: ['wrapper'],
+            readyCallBack: () => this.componentReady()
+        });
 
-        this.clickEvent = (e) => {
+        this.contentClickEvent = (e) => {
             const elem = this.shadow.elementFromPoint(e.x, e.y);
             const elemPath = getPath(elem);
             const reversedElem = getElemFromPath(this.outlineDiv, elemPath);
             Array.from(this.outlineDiv.querySelectorAll('div')).forEach(f => f.classList.remove('active'));
             reversedElem != this.outlineDiv ? reversedElem.classList.add('active') : undefined;
+        }
+
+        this.outlineClickEvent = (e) => {
+            const elem = this.shadow.elementFromPoint(e.x, e.y);
+            // const elemPath = getPath(elem);
+            // const reversedElem = getElemFromPath(this.contentDiv, elemPath);
+            Array.from(this.outlineDiv.querySelectorAll('div')).forEach(f => f.classList.remove('active'));
+            // reversedElem != this.outlineDiv ? reversedElem.classList.add('active') : undefined;
+            elem != this.outlineDiv ? elem.classList.add('active') : undefined;
         }
 
         this.menuBtnClick = (className) => (e) => {
@@ -62,8 +76,9 @@ class writableDiv extends baseObj {
     get outlineDiv() { return this.wrapper.querySelector('.wsyiwygOutline') }
 
     componentReady() {
-        if (this.contentDiv) {
-            this.contentDiv.addEventListener('click', this.clickEvent);
+        if (this.contentDiv && this.outlineDiv) {
+            this.contentDiv.addEventListener('click', this.contentClickEvent);
+            this.outlineDiv.addEventListener('click', this.outlineClickEvent);
 
             if (this.outlineDiv) {
                 this.outlineDiv.innerHTML = this.contentDiv.innerHTML;
