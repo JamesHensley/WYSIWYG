@@ -19,10 +19,7 @@ class writableDiv extends baseObj {
 
         this.outlineClickEvent = (e) => {
             const elem = this.shadow.elementFromPoint(e.x, e.y);
-            // const elemPath = getPath(elem);
-            // const reversedElem = getElemFromPath(this.contentDiv, elemPath);
             Array.from(this.outlineDiv.querySelectorAll('div')).forEach(f => f.classList.remove('active'));
-            // reversedElem != this.outlineDiv ? reversedElem.classList.add('active') : undefined;
             elem != this.outlineDiv ? elem.classList.add('active') : undefined;
         }
 
