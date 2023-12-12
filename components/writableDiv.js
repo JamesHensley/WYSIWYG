@@ -16,7 +16,19 @@ class writableDiv extends baseObj {
             const elemPath = getPath(this.outlineDiv.querySelector('.active'));
             const reversedElem = getElemFromPath(this.contentDiv, elemPath);
             if (reversedElem) {
-                reversedElem.classList.add(className);
+                if (className == 'textNormal') {
+                    Array.from(reversedElem.classList).forEach(f => reversedElem.classList.remove(f))
+                }
+                else if(reversedElem.classList.contains('textNormal')) {
+                    reversedElem.classList.remove('textNormal');
+                }
+
+                if (reversedElem.classList.contains(className)) {
+                    reversedElem.classList.remove(className);
+                }
+                else {
+                    reversedElem.classList.add(className);
+                }
             }
         }
 
